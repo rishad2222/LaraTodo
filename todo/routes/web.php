@@ -22,4 +22,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/todos/index', 'HomeController@index')->name('todo.index');
+Route::get('/todos/index', 'TodoController@index')->name('todo.index');

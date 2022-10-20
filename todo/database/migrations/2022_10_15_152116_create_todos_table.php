@@ -17,7 +17,7 @@ class CreateTodosTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->tinyInteger('is_completed');
+            $table->tinyInteger('is_completed')->default(0);
             $table->timestamps();
         });
     }

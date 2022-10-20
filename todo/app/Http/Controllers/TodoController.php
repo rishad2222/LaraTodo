@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Todo;
 use Illuminate\Http\Request;
+use App\Http\Requests\TodoRequest;
 
 class TodoController extends Controller
 {
@@ -17,7 +19,11 @@ class TodoController extends Controller
      */
     public function index()
     {
-        return view ('todos.index');
+        $todos = Todo::all();
+        return view ('todos.index' , [
+            'todos' => $todos,
+            'is_completed' => 0
+        ]);
     }
 
     /**
@@ -36,9 +42,15 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TodoRequest $request)
     {
-        //
+        Todo::create([
+            'title'=>$request->title,
+            'description'=>$request->description,
+        ]);
+
+        $request->session()->flash('alert-success', 'Todo Created Successfully');
+        return redirect()->route('todo.index');
     }
 
     /**
@@ -49,7 +61,14 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        $todo = Todo::find($id);
+        if(! $todo){
+            request()->session()->flash('error', 'Unable to locate the Todo');
+            return redirect()->route('todo.index')->withErrors([
+                'error' => 'Unable to locate the Todo'
+            ]);
+        }
+        return view ('todos.show' , ['todo' => $todo]);
     }
 
     /**
@@ -60,7 +79,14 @@ class TodoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $todo = Todo::find($id);
+        if(! $todo){
+            request()->session()->flash('error', 'Unable to locate the Todo');
+            return redirect()->route('todo.index')->withErrors([
+                'error' => 'Unable to locate the Todo'
+            ]);
+        }
+        return view ('todos.edit' , ['todo' => $todo]);
     }
 
     /**
@@ -70,9 +96,9 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TodoRequest $request)
     {
-        //
+        return $request->all();
     }
 
     /**

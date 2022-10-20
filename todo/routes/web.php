@@ -24,4 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/todos/index', 'TodoController@index')->name('todo.index');
 Route::get('/todos/create', 'TodoController@create')->name('todo.create');
-Route::get('/todos/store', 'TodoController@store')->name('todo.store');
+Route::post('/todos/store', 'TodoController@store')->name('todo.store');
+Route::get('/todos/show/{id}', 'TodoController@show')->name('todo.show');
+Route::get('/todos/edit/{id}', 'TodoController@edit')->name('todo.edit');
+Route::put('/todos/update', 'TodoController@update')->name('todo.update');

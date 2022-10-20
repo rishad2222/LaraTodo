@@ -8,7 +8,17 @@
                 <div class="card-header">Create Todo</div>
 
                 <div class="card-body">
-                    <form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form method="post" action="{{ route('todo.store') }}">
                         @csrf
                         <div class="form-group mb-3">
                           <label class="form-label">Title</label>
@@ -17,9 +27,7 @@
                         </div>
                         <div class="form-group mb-3">
                           <label class="form-label">Description</label>
-                          <textarea name="description" class="form-control" cols="5" rows="5">
-
-                          </textarea>
+                          <textarea name="description" class="form-control" cols="5" rows="5"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                       </form>

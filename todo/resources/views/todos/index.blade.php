@@ -23,8 +23,12 @@
             <div class="card">
                 <div class="card-header">Todo List</div>
 
-                <div class="card-body">
 
+
+                <div class="card-body">
+                    <div class="mb-3">
+                        <a href="{{ route ('todo.create') }}" class="inner btn btn-sm btn-primary"> Create Todo</a>
+                    </div>
                     @if (Session::has('alert-success'))
                         <div class="alert alert-success" role="alert">
                             {{ Session::get('alert-success') }}
@@ -51,7 +55,7 @@
                                 @foreach ($todos as $todo)
                                     <tr>
                                         <td>{{ $todo->title }}</td>
-                                        <td>{{ $todo->description }}</td>
+                                        <td>{{ Illuminate\Support\Str::limit(strip_tags($todo->description) , 35) }}</td>
                                         <td>
                                             @if ($todo->is_completed ==1)
                                                 <a class="btn btn-sm btn-success" href="">Completed</a>
@@ -62,7 +66,9 @@
                                         <td id="outer">
                                             <a class="inner btn btn-sm btn-success" href="{{ route('todo.edit' , $todo->id) }}">Edit</a>
                                             <a class="inner btn btn-sm btn-info" href="{{ route('todo.show' , $todo->id) }}">View</a>
-                                            <form action="" class="inner">
+                                            <form method="post" class="inner" action="{{ route('todo.destroy') }}">
+                                                @csrf
+                                                @method('DELETE')
                                                 <input type="hidden" name="todo_id" value="{{ $todo->id }}">
                                                 <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                                             </form>
